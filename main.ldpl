@@ -1,0 +1,38 @@
+data:
+	argc is number
+	ftext is text
+
+procedure:
+	get length of argv in argc
+
+	if argc is equal to 0 then
+		display "Error: No file specified. Use -help for a list of commands." crlf
+		exit
+	else
+		if argv:0 is equal to "-help" then
+			call help
+			exit
+		end if
+
+		load file argv:0 in ftext
+
+		if errorcode is equal to 1 then
+			display "Error: The specified file does not exist." crlf
+			exit
+		end if
+	end if
+	
+	replace " " from ftext with "" in ftext
+	replace "\r" from ftext with "" in ftext
+	replace "\n" from ftext with "" in ftext
+
+	write ftext to file "out.json"
+	display ftext crlf
+
+	sub help
+		procedure:
+			display "Command line arguments:" crlf crlf
+
+			display "<FileName>\tProcesses the specified file." crlf
+			display "-help\t\tDisplays this list." crlf
+	end sub
