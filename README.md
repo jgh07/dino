@@ -1,2 +1,2 @@
-# dino
-A JSON minifier written in LDPL
+# Dino
+A JSON minifier written in LDPL.
