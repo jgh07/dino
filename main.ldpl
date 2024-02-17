@@ -1,6 +1,13 @@
 data:
 	argc is number
 	ftext is text
+	len is number
+	is_in_literal is number
+	i is number
+	current_char is text
+	segments is list of text
+	result is text
+	segment is text
 
 procedure:
 	get length of argv in argc
@@ -21,13 +28,31 @@ procedure:
 			exit
 		end if
 	end if
-	
-	replace " " from ftext with "" in ftext
-	replace "\r" from ftext with "" in ftext
-	replace "\n" from ftext with "" in ftext
 
-	write ftext to file "out.json"
-	display ftext crlf
+	get length of ftext in len
+
+	for i from 0 to len step 1 do
+		get character at i from ftext in current_char
+		if current_char is equal to "\"" then
+			if is_in_literal is equal to 1 then
+				store 0 in is_in_literal
+			else
+				store 1 in is_in_literal
+			end if
+		end if
+
+		if is_in_literal is equal to 1 then
+			push current_char to segments
+		else
+			if current_char is not equal to " " and current_char is not equal to "\r" and current_char is not equal to "\n" and current_char is not equal to "\t" then
+				push current_char to segments
+			end if
+		end if
+	repeat
+
+	for each segment in segments do
+		display segment
+	repeat
 
 	sub help
 		procedure:
